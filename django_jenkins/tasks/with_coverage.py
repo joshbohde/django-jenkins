@@ -40,14 +40,10 @@ class Task(BaseTask):
     def teardown_test_environment(self, **kwargs):
         self.coverage.stop()
 
-        modules = [ module for name, module in sys.modules.items() \
-                        if self.want_module(name, module)]
-        morfs = [ self.src(m.__file__) for m in modules if self.src(m.__file__).endswith(".py")]
-
-        self.coverage.xml_report(morfs, outfile=os.path.join(self.output_dir, 'coverage.xml'))
+        self.coverage.xml_report(outfile=os.path.join(self.output_dir, 'coverage.xml'))
 
         if self.html_dir:
-            self.coverage.html_report(morfs, directory=self.html_dir)
+            self.coverage.html_report(directory=self.html_dir)
     
     def want_module(self, modname, mod):
         """
